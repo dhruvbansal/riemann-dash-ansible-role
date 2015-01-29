@@ -1,0 +1,11 @@
+---
+
+- include: install.yml
+  tags:
+    - riemann-dash
+
+- include: logstash.yml
+  when: riemann_dash_use_logstash
+  tags:
+    - logstash
+    - riemann-dash

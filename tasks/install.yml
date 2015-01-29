@@ -1,0 +1,36 @@
+---
+
+- name: Install Riemann dash
+  gem: name=riemann-dash state=present version={{ riemann_dash_version }}
+
+- name: Create configuration directory
+  file: path={{ riemann_conf_dir }} state=directory owner=root group=root mode=0755
+
+- name: Create log directory
+  file: path={{ riemann_dash_log_dir }} state=directory owner={{ riemann_dash_user }} group={{ riemann_dash_group }} mode=0755
+
+- name: Create configuration file
+  template: src=dash.rb.j2 dest="{{ riemann_conf_dir }}/dash.rb" owner=root group=root mode=0644
+  notify:
+    - restart riemann-dash
+
+- name: Create upstart configuration file
+  template: src=upstart.conf.j2 dest=/etc/init/riemann-dash.conf owner=root group=root mode=0644
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
+  notify:
+    - restart riemann-dash
+
+- name: Start Riemann dash
+  service: name=riemann-dash state={{ riemann_dash_state }} enabled={{ riemann_dash_enable }}
+
+- name: Create nginx configuration
+  template: src=nginx.conf.j2 dest=/etc/nginx/sites-available/riemann-dash.conf owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - nginx
+      
+- name: Enable nginx configuration
+  file: state=link src=/etc/nginx/sites-available/riemann-dash.conf dest=/etc/nginx/sites-enabled/riemann-dash.conf owner=root group=root mode=0644
+  tags:
+    - nginx
