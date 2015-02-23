@@ -15,7 +15,7 @@ riemann_dash_state: started
 riemann_dash_enable: yes
 
 riemann_dash_env:  production
-riemann_dash_port: 5557
+riemann_dash_port: 5559
 riemann_dash_fqdn: riemann.example.com
 riemann_dash_firewall_rules: /etc/nginx/firewall.conf
 riemann_dash_proxy_params:   /etc/nginx/proxy_params
