@@ -1,7 +1,7 @@
 ---
 
 - name: Install Riemann dash
-  gem: name=riemann-dash state=present version={{ riemann_dash_version }}
+  gem: name=riemann-dash state=present version={{ riemann_dash_version }} user_install=no
 
 - name: Create configuration directory
   file: path={{ riemann_conf_dir }} state=directory owner=root group=root mode=0755
