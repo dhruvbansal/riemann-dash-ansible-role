@@ -4,16 +4,17 @@ upstream riemann_dash {
   server localhost:{{ riemann_dash_port }};
 }
 
-upstream riemann_ws {
+upstream riemann_dash_ws {
   server {{ riemann_ws_host }}:{{ riemann_ws_port }};
 }
 
 server {
     listen              443 ssl;
+    include             {{ riemann_dash_ssl_rules }};
     server_name         {{ riemann_dash_fqdn }};
 
-    access_log          {{ riemann_dash_log_dir }}/nginx.access.log;
-    error_log           {{ riemann_dash_log_dir }}/nginx.error.log;
+    access_log          {{ riemann_dash_log_dir }}/riemann-dash.nginx.access.log;
+    error_log           {{ riemann_dash_log_dir }}/riemann-dash.nginx.error.log;
     
     location / {
         proxy_pass http://riemann_dash;
@@ -24,17 +25,18 @@ server {
 
 server {
     listen              443 ssl;
+    include             {{ riemann_dash_ssl_rules }};
     server_name         {{ riemann_ws_fqdn }};
 
-    access_log          {{ riemann_dash_log_dir }}/nginx.websockets.log;
-    error_log           {{ riemann_dash_log_dir }}/nginx.error.log;
+    access_log          {{ riemann_dash_log_dir }}/riemann-ws.nginx.access.log;
+    error_log           {{ riemann_dash_log_dir }}/riemann-ws.nginx.error.log;
     
     location / {
-        proxy_pass http://riemann_ws;
+        proxy_pass http://riemann_dash_ws;
         include    {{ riemann_dash_proxy_params }};
         include    {{ riemann_dash_firewall_rules }};
 	proxy_http_version 1.1;
 	proxy_set_header Upgrade $http_upgrade;
-	proxy_set_header Connection "Upgrade";
+	proxy_set_header Connection "upgrade";
     }
 }

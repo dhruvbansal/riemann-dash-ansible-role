@@ -1,22 +1,35 @@
 ---
 
-riemann_dash_version: ~         # will install latest
+riemann_dash_packages:
+  ruby_dev:
+    apt_name: ruby-dev
+
+riemann_dash_gems:
+  riemann_dash:
+    name: riemann-dash
+    version: 0.2.12
+  thin:
+    name: thin
+    version: 1.6.4
 
 riemann_conf_dir: /etc/riemann
 
 riemann_dash_user:  www-data
 riemann_dash_group: www-data
 
-riemann_dash_log_dir: /var/log/riemann-dash/
+riemann_dash_log_dir: /var/log/riemann/dash/
 
 riemann_dash_use_logstash: true
 
 riemann_dash_state: started
 riemann_dash_enable: yes
 
+riemann_dash_use_nginx: true
 riemann_dash_env:  production
 riemann_dash_port: 5559
+riemann_dash_listen: "0.0.0.0"
 riemann_dash_fqdn: riemann.example.com
+riemann_dash_ssl_rules: /etc/nginx/ssl.conf
 riemann_dash_firewall_rules: /etc/nginx/firewall.conf
 riemann_dash_proxy_params:   /etc/nginx/proxy_params
 

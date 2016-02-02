@@ -1,6 +1,45 @@
 ---
 
-- include: install.yml
+- name: Install package dependencies
+  action: apt name={{ item.value.apt_name }}
+  when: riemann_dash_packages is defined and ansible_pkg_mgr == "apt"
+  with_dict: riemann_dash_packages
+  tags:
+    - riemann-dash
+
+- name: Install riemann-dash Ruby gems
+  action: gem name={{item.value.name }} state=present version={{ item.value.version }} user_install=no
+  with_dict: riemann_dash_gems
+  tags:
+    - riemann-dash
+
+- name: Create configuration directory
+  file: path={{ riemann_conf_dir }} state=directory owner=root group=root mode=0755
+  tags:
+    - riemann-dash
+
+- name: Create log directory
+  file: path={{ riemann_dash_log_dir }} state=directory owner={{ riemann_dash_user }} group={{ riemann_dash_group }} mode=0755
+  tags:
+    - riemann-dash
+
+- name: Create configuration file
+  template: src=dash.rb.j2 dest="{{ riemann_conf_dir }}/dash.rb" owner=root group=root mode=0644
+  notify:
+    - restart riemann-dash
+  tags:
+    - riemann-dash
+
+- name: Create upstart configuration file
+  template: src=upstart.conf.j2 dest=/etc/init/riemann-dash.conf owner=root group=root mode=0644
+  when: ansible_os_family == "Debian"
+  notify:
+    - restart riemann-dash
+  tags:
+    - riemann-dash
+
+- name: Start Riemann dash
+  service: name=riemann-dash state={{ riemann_dash_state }} enabled={{ riemann_dash_enable }}
   tags:
     - riemann-dash
 
@@ -8,4 +47,10 @@
   when: riemann_dash_use_logstash
   tags:
     - logstash
+    - riemann-dash
+
+- include: nginx.yml
+  when: riemann_dash_use_nginx
+  tags:
+    - nginx
     - riemann-dash
