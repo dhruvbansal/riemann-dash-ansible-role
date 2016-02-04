@@ -43,12 +43,6 @@
   tags:
     - riemann-dash
 
-- include: logstash.yml
-  when: riemann_dash_use_logstash
-  tags:
-    - logstash
-    - riemann-dash
-
 - include: nginx.yml
   when: riemann_dash_use_nginx
   tags:

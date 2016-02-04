@@ -19,8 +19,6 @@ riemann_dash_group: www-data
 
 riemann_dash_log_dir: /var/log/riemann/dash/
 
-riemann_dash_use_logstash: true
-
 riemann_dash_state: started
 riemann_dash_enable: yes
 
