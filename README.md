@@ -22,7 +22,6 @@ Creates the files:
 * `/etc/riemann/dash.rb` -- configuration file for Riemann dash
 * `/etc/nginx/sites-available/riemann-dash.conf` -- configuration file for nginx
 * `/var/log/riemann-dash` -- log directory for Sinatra & nginx
-* `/etc/logstash/conf.d/riemann-dash.conf` -- configuration file for Logstash
 
 ## Services
 
@@ -39,6 +38,3 @@ Use the role in a playbook like this:
   roles:
     - riemann-dash
 ```
-
-Set the `riemann_dash_use_logstash` to `false` to skip the logstash
-configuration.
