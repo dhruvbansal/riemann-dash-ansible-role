@@ -16,5 +16,5 @@ setgid {{ riemann_dash_group }}
 env RACK_ENV={{ riemann_dash_env }}
 
 script
-  exec riemann-dash /etc/riemann/dash.rb > {{ riemann_dash_log_dir }}/dash.log 2>&1
+  exec riemann-dash /etc/riemann/dash.rb >> {{ riemann_dash_log_dir }}/dash.log 2>&1
 end script
