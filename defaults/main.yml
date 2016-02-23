@@ -28,3 +28,5 @@ riemann_dash_listen: "0.0.0.0"
 
 riemann_ws_host: localhost
 riemann_ws_port: 5556
+
+riemann_dash_logrotate_dir: /etc/logrotate.d

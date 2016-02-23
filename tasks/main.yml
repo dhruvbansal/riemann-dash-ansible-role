@@ -30,6 +30,12 @@
   tags:
     - riemann-dash
 
+- name: Create logrotate configuration file
+  template: src=logrotate.j2 dest="{{ riemann_dash_logrotate_dir }}/riemann-dash" owner=root group=root mode=0644
+  tags:
+    - riemann-dash
+    - logrotate
+
 - name: Create upstart configuration file
   template: src=upstart.conf.j2 dest=/etc/init/riemann-dash.conf owner=root group=root mode=0644
   when: ansible_os_family == "Debian"
