@@ -42,9 +42,3 @@
   service: name=riemann-dash state={{ riemann_dash_state }} enabled={{ riemann_dash_enable }}
   tags:
     - riemann-dash
-
-- include: nginx.yml
-  when: riemann_dash_use_nginx
-  tags:
-    - nginx
-    - riemann-dash

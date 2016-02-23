@@ -20,8 +20,7 @@ command, a thin wrapper around launching a
 Creates the files:
 
 * `/etc/riemann/dash.rb` -- configuration file for Riemann dash
-* `/etc/nginx/sites-available/riemann-dash.conf` -- configuration file for nginx
-* `/var/log/riemann-dash` -- log directory for Sinatra & nginx
+* `/var/log/riemann-dash` -- log directory for Sinatra
 
 ## Services
 
